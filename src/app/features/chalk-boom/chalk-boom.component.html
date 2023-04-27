@@ -1,0 +1,6 @@
+<p>chalk-boom works!</p>
+<button (click)="sendMessage()">Hello World</button>
+<h4>Last Me:</h4>
+<p *ngIf="(lastMe$ | async) as lastMe">{{ lastMe.data.tags['display-name'] }}</p>
+<h4>Last Boom:</h4>
+<p *ngIf="(lastBoom$ | async) as lastBoom">{{ lastBoom.data.tags['display-name'] }}</p>

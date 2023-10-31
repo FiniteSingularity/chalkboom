@@ -1,0 +1,30 @@
+:host {
+  color: #e9d5c8;
+  font-family: 'Architects Daughter';
+
+  h1 {
+    width: 100%;
+    text-align: center;
+    font-weight: normal;
+    font-size: 42px;
+    span {
+      font-family: monospace;
+    }
+  }
+
+  .player-list {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1em;
+    li:before {
+      display: inline-block;
+      content: "-";
+      width: 1em;
+      margin-left: -1em;
+    }
+    li {
+      font-size: 36px;
+      margin-left: 100px;
+    }
+  }
+}

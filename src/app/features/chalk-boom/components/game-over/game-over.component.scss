@@ -1,0 +1,9 @@
+:host {
+  div.winner {
+    position:absolute;
+    top:50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    left:50%;
+    font-size: 80px;
+  }
+}

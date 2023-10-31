@@ -1,0 +1,19 @@
+<h1>WAGERS</h1>
+<div class="wager-board">
+  <div class="team" *ngIf="blue">
+    <h2 class="blue-header">BLUE</h2>
+    <h3 *ngIf="blue.topPredictors.length === 0">No Wagers</h3>
+    <div class="wager" *ngFor="let wager of blue.topPredictors">
+      <div class="name">{{ wager.userName }}</div>
+      <div class="wager-amount">{{wager.channelPointsUsed}}</div>
+    </div>
+  </div>
+  <div class="team" *ngIf="red">
+    <h2 class="red-header">RED</h2>
+    <h3 *ngIf="red.topPredictors.length === 0">No Wagers</h3>
+    <div class="wager" *ngFor="let wager of red.topPredictors">
+      <div class="name">{{ wager.userName }}</div>
+      <div class="wager-amount">{{wager.channelPointsUsed}}</div>
+    </div>
+  </div>
+</div>

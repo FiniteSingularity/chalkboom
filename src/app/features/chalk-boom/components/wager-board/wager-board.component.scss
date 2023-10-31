@@ -1,0 +1,48 @@
+:host {
+  h1 {
+    width: 100%;
+    margin-bottom: 0px;
+    text-align: center;
+    font-size: 48px;
+    font-family: 'Fredericka the Great';
+    color: #ffffff;
+    font-weight: normal;
+  }
+  .wager-board {
+    font-size: 28px;
+    display: flex;
+    .team {
+      padding: 30px;
+      width: 50%;
+      h2 {
+        font-size: 36px;
+        font-weight: normal;
+        margin: 0px;
+        width: 100%;
+        text-align: center;
+        color: #ffffff;
+        border-bottom: 2px solid #ffffff;
+        font-family: 'Fredericka the Great';
+        &.blue-header {
+          color: #66CCFF;
+          border-bottom-color: #66CCFF;
+        }
+        &.red-header {
+          color: #ff7d7d;
+          border-bottom-color: #ff7d7d;
+        }
+      }
+      h3 {
+        width: 100%;
+        margin: 150px 0px;
+        text-align: center;
+      }
+      .wager {
+        padding: 10px 30px;
+        font-size: 36px;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

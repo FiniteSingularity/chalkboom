@@ -1,0 +1,14 @@
+<div class="boom-container" [ngStyle]="{
+  'left.px': boom.position.x-256,
+  'top.px': boom.position.y-256
+}">
+<div
+  class="boom"
+  [ngStyle]="{
+    'background-color': boom.color,
+    'width.px': boom.radius*2,
+    'height.px': boom.radius*2,
+    'border-radius.px': boom.radius
+  }"
+></div>
+</div>

@@ -1,6 +1,19 @@
-<p>chalk-boom works!</p>
-<button (click)="sendMessage()">Hello World</button>
-<h4>Last Me:</h4>
-<p *ngIf="(lastMe$ | async) as lastMe">{{ lastMe.data.tags['display-name'] }}</p>
-<h4>Last Boom:</h4>
-<p *ngIf="(lastBoom$ | async) as lastBoom">{{ lastBoom.data.tags['display-name'] }}</p>
+<ng-container *ngIf="phase$ | async as phase">
+  <ng-container *ngIf="phase === 'wagering'">
+    <app-wager-board [wagers]="wagers$ | async"></app-wager-board>
+  </ng-container>
+  <ng-container *ngIf="phase === 'signup'">
+    <h1>Type <span>!me</span> in chat to play.</h1>
+    <ul class='player-list'>
+      <li *ngFor="let player of players$ | async">{{ player.name }} - {{ player.teamName }}</li>
+    </ul>
+  </ng-container>
+  <ng-container *ngIf="phase === 'playing' || phase==='game-over'">
+    <app-score *ngIf="score$ | async as score" [scores]="score" [targetScore]="targetScore$ | async"></app-score>
+    <app-player *ngFor="let player of players$ | async" [player]="player"></app-player>
+    <app-boom *ngFor="let boom of booms$ | async" [boom]="boom"></app-boom>
+  </ng-container>
+  <app-game-over *ngIf="phase === 'game-over'" [winner]="winner$ | async"></app-game-over>
+</ng-container>
+
+

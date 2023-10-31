@@ -1,8 +1,22 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { delay, filter, retryWhen, switchMap, tap, withLatestFrom } from 'rxjs';
+import {
+  delay,
+  filter,
+  map,
+  retryWhen,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
+import {
+  PredictionDetails,
+  PredictionOutcome,
+  PredictionResponse,
+} from '../models/helix.models';
 
 interface BotStatus {
   ws: WebSocketSubject<IrcMessage | IrcEvent | ToIrcMessage> | null;
@@ -11,9 +25,6 @@ interface BotStatus {
   lastBoom: IrcMessage | null;
   lastMe: IrcMessage | null;
 }
-/*
-
-*/
 
 interface ToIrcMessage {
   irc_channel: string;
@@ -71,7 +82,7 @@ export class ChalkboomBotService extends ComponentStore<BotStatus> {
   readonly lastBoom$ = this.select((s) => s.lastBoom);
   readonly lastMe$ = this.select((s) => s.lastMe);
 
-  constructor() {
+  constructor(private http: HttpClient) {
     super({
       ws: null,
       connected: false,
@@ -157,7 +168,46 @@ export class ChalkboomBotService extends ComponentStore<BotStatus> {
   }
 
   sendMessage(channel: string, message: string) {
-    console.log(channel, message);
     this.get().ws?.next({ irc_channel: channel, message });
+  }
+
+  setupPrediction() {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: `Token ${environment.tauToken}`,
+    });
+    const url = `${environment.tauUrl}/api/twitch/helix/predictions`;
+    const payload = {
+      broadcaster_id: environment.broadcasterId,
+      title: 'Chalkboom Wager',
+      outcomes: [{ title: 'Blue' }, { title: 'Red' }],
+      prediction_window: 60,
+    };
+    return this.http.post<PredictionResponse>(url, payload, { headers }).pipe(
+      map(
+        (resp): PredictionDetails => ({
+          id: resp.data[0].id as string,
+          outcomes: [
+            ...resp.data[0].outcomes.map((outcome: any) => ({
+              id: outcome.id as string,
+              title: outcome.title as string,
+            })),
+          ],
+        })
+      )
+    );
+  }
+
+  closePrediction(predictionId: string, winningId: string) {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: `Token ${environment.tauToken}`,
+    });
+    const url = `${environment.tauUrl}/api/twitch/helix/predictions`;
+    const payload = {
+      broadcaster_id: environment.broadcasterId,
+      id: predictionId,
+      status: 'RESOLVED',
+      winning_outcome_id: winningId,
+    };
+    return this.http.patch<PredictionResponse>(url, payload, { headers });
   }
 }

@@ -1,0 +1,31 @@
+:host {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 9999;
+  color: #FFFFFF;
+  font-family: 'Architects Daughter';
+  font-size: 46px;
+
+  div {
+      width: 33.3%;
+      text-align: center;
+      font-family: 'Architects Daughter';
+      span {
+          text-decoration: underline;
+          font-family: 'Fredericka the Great';
+      }
+      &.blue {
+        span {
+          color: #66CCFF;
+        }
+      }
+      &.red {
+        span {
+          color: #ff7d7d;
+        }
+      }
+  }
+}
